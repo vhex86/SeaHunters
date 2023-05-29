@@ -20,7 +20,10 @@ let amountEnemyShip = 10;
 let scanMovePattern = {
     counterTarget:0,
     nearDistance: function(startCell,tableCell){ // функция обхода вверх
-        let up = tableCell[startCell].classList.contains("up_transit");
+        let up = tableCell[startCell-1].classList.contains("up_transit");
+        let right = tableCell[startCell-1].classList.contains("right_transit");
+        let bottom = tableCell[startCell-1].classList.contains("down_transit");
+        let left = tableCell[startCell-1].classList.contains("left_transit");
         function moveScan (amountCellTable){ 
      
             
@@ -28,7 +31,7 @@ let scanMovePattern = {
                 
                 tableCell[startCell - amountCellTable].innerHTML = "⚡";
                
-                setTimeout(function() {tableCell[startCell - amountCellTable].innerHTML = " ";}, 500  );
+                setTimeout(function() {tableCell[startCell - amountCellTable].innerHTML = " ";}, 1000  );
              
                 if (tableCell[startCell - amountCellTable].classList.contains("Enemy")) {
                     scanMovePattern.counterTarget++; 
@@ -39,7 +42,7 @@ let scanMovePattern = {
            
             else {
                 tableCell[startCell - amountCellTable].innerHTML = "⚡";
-                setTimeout(function() {tableCell[startCell - amountCellTable].innerHTML = "🚢";}, 500  );
+                setTimeout(function() {tableCell[startCell - amountCellTable].innerHTML = "🚢";}, 1000  );
                 scanMovePattern.counterTarget++;
             
             }
@@ -48,19 +51,96 @@ let scanMovePattern = {
         }
        
 
-        if(!up ) {
-            setTimeout( function(){ moveScan(12);}, 0);
-            setTimeout( function(){ moveScan(11);}, 100);
-            setTimeout( function(){ moveScan(10);}, 200);
-            setTimeout( function(){ moveScan(0);},  300);
-            setTimeout( function(){ moveScan(-10);},  400);
-            setTimeout( function(){ moveScan(-9);},  500);
-            setTimeout( function(){ moveScan(-8);},  600);
-            setTimeout( function(){ moveScan(2);},  700);
-            setTimeout( function(){ counterMessage();}, 800);  
-        } else {
+        if(!up && !right && !bottom && !left ) { // Если  начальная курсора не находится на этих позициях
+            setTimeout( function(){ moveScan(12);}, 0); // спокойно проходим один круг // вверх лево
+            setTimeout( function(){ moveScan(11);}, 100); // вверх
+            setTimeout( function(){ moveScan(10);}, 200);  // вверх вправо
+            setTimeout( function(){ moveScan(0);},  300);//вправо
+            setTimeout( function(){ moveScan(-10);},  400); //право - вниз
+            setTimeout( function(){ moveScan(-9);},  500);//низ
+            setTimeout( function(){ moveScan(-8);},  600); // лево -низ
+            setTimeout( function(){ moveScan(2);},  700); // лево
+            setTimeout( function(){ counterMessage();}, 800);  //сетчик целей 
+        } 
+        else if ( up&&left){ // позиция левого верхнего угла
+            // alert ("Работаем");
+            setTimeout( function(){ moveScan(0);}, 0);
+            setTimeout( function(){ moveScan(-10);},  100);
+            setTimeout( function(){ moveScan(-9);},  200);
+            setTimeout( function(){ counterMessage();}, 300);  
+        }
+        else if (up&&right ){ //позиция верхнего правого 
+        
+            setTimeout( function(){ moveScan(2);}, 0); // лево
+            setTimeout( function(){ moveScan(-8);}, 100); // лево -низ
+            setTimeout( function(){ moveScan(-9);},  200);//низ
+            setTimeout( function(){ counterMessage();}, 300);  
+               
+            //  alert ("Работаем");
+        }
+        else if (bottom && right) { //позиция нижнего правого
+            setTimeout( function(){ moveScan(11);}, 0); // вверх
+            setTimeout( function(){ moveScan(12);}, 100); // спокойно проходим один круг // вверх лево
+            setTimeout( function(){ moveScan(2);},  200); // лево
+            setTimeout( function(){ counterMessage();}, 300);  
+        }
+        else if (bottom && left) {    //позиция нижнего левого угла
+            setTimeout( function(){ moveScan(11);}, 0); // вверх
+            setTimeout( function(){ moveScan(10);}, 200);  // вверх вправо
+            setTimeout( function(){ moveScan(0);},  300);//вправо
+            setTimeout( function(){ counterMessage();}, 300);  
 
-            alert ("oops"); 
+        }
+        else if (up) {
+            setTimeout( function(){ moveScan(0);},  100);//вправо
+            setTimeout( function(){ moveScan(-10);},  200); //право - вниз
+            setTimeout( function(){ moveScan(-9);},  300);//низ
+            setTimeout( function(){ moveScan(-8);},  600); // лево -низ
+            setTimeout( function(){ moveScan(2);},  700); // лево
+            setTimeout( function(){ counterMessage();}, 800);  //счетчик целей 
+
+        }
+        else if(right){
+            setTimeout( function(){ moveScan(11);}, 0); // вверх
+            setTimeout( function(){ moveScan(12);}, 100); // вверх лево
+            setTimeout( function(){ moveScan(2);},  200); // лево
+            setTimeout( function(){ moveScan(-8);},  300); // лево -низ
+            setTimeout( function(){ moveScan(-9);},  400);//низ
+            setTimeout( function(){ counterMessage();}, 500);  //сетчик целей 
+        }
+        
+        else if(bottom) {
+            setTimeout( function(){ moveScan(2);},  0); // лево
+            setTimeout( function(){ moveScan(12);}, 100);  // вверх лево
+            setTimeout( function(){ moveScan(11);}, 200); // вверх
+            setTimeout( function(){ moveScan(10);}, 300);  // вверх вправо
+            setTimeout( function(){ moveScan(0);},  400);//вправо
+            setTimeout( function(){ counterMessage();}, 500);  //сетчик целей 
+
+        } 
+        else if(left) {
+            setTimeout( function(){ moveScan(11);}, 100); // вверх
+            
+            setTimeout( function(){ moveScan(10);}, 200);  // вверх вправо
+            setTimeout( function(){ moveScan(0);},  300);//вправо
+            
+            setTimeout( function(){ moveScan(-10);},  400); //право - вниз
+            
+            setTimeout( function(){ moveScan(-9);},  500);//низ
+            setTimeout( function(){ counterMessage();}, 600);  //сетчик целей 
+
+            // setTimeout( function(){ moveScan(12);}, 0); // спокойно проходим один круг // вверх лево
+            
+            
+            // setTimeout( function(){ moveScan(-8);},  600); // лево -низ
+            // setTimeout( function(){ moveScan(2);},  700); // лево
+          
+        }
+
+        
+        else {
+
+            alert ("oops!"); 
         }
         function counterMessage() {
             console.log(scanMovePattern.counterTarget);
