@@ -19,6 +19,7 @@ let amountEnemyShip = 10;
 
 let scanMovePattern = {
     counterTarget:0,
+    counterTargetFarDistance:0,
     nearDistance: function(startCell,tableCell){ // функция обхода вверх
         let up = tableCell[startCell-1].classList.contains("up_transit");
         let right = tableCell[startCell-1].classList.contains("right_transit");
@@ -136,7 +137,7 @@ let scanMovePattern = {
             // setTimeout( function(){ moveScan(2);},  700); // лево
           
         }
-
+        
         
         else {
 
@@ -157,7 +158,7 @@ let scanMovePattern = {
         }
                                                
     }
-    
+  
 
 };
 
